@@ -37,14 +37,14 @@ function download_bootstrap() {
 }
 
 function install_params() {
-  echo -e "${GREEN}Downloading and Installing $COIN_NAME Params FIles${NC}"
+  echo -e "${GREEN}Downloading and Installing $COIN_NAME Params Files${NC}"
   mkdir -p /root/tmp
   cd /root/tmp >/dev/null 2>&1
   rm -rf util* >/dev/null 2>&1
   wget -q $NEBULAPROJECT_PARAMS
   unzip $NEBULAPROJECT_PARAMS >/dev/null 2>&1
   chmod -Rv +x util >/dev/null 2>&1
-  util/./fetch-params.sh
+  runuser -l $NEBULAPROJECT_USER -c 'util/./fetch-params.sh'
   clear
 }
 
