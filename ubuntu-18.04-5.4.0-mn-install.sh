@@ -10,6 +10,9 @@ NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin
 COIN_BOOTSTRAP='https://bootstrap.nebulaproject.io/boot_strap.tar.gz'
 COIN_ZIP=$(echo $NEBULAPROJECT_LATEST_RELEASE | awk -F'/' '{print $NF}')
 COIN_CHAIN=$(echo $COIN_BOOTSTRAP | awk -F'/' '{print $NF}')
+COIN_NAME='NebulaProject'
+CONFIGFOLDER='.nebulaproject'
+COIN_BOOTSTRAP_NAME='boot_strap.tar.gz'
 
 DEFAULT_NEBULAPROJECT_PORT=1818
 DEFAULT_NEBULAPROJECT_RPC_PORT=1819
@@ -22,30 +25,29 @@ NC='\033[0m'
 
 function download_bootstrap() {
   echo -e "${GREEN}Downloading and Installing $COIN_NAME BootStrap${NC}"
-  mkdir -p /root/tmp
-  cd /root/tmp >/dev/null 2>&1
+  mkdir -p /opt/chaintmp/
+  cd /opt/chaintmp >/dev/null 2>&1
   rm -rf boot_strap* >/dev/null 2>&1
-  wget -q $COIN_BOOTSTRAP
-  cd $CONFIGFOLDER >/dev/null 2>&1
-  rm -rf blk* database* txindex* peers.dat
-  cd /root/tmp >/dev/null 2>&1
-  tar -zxf $COIN_CHAIN /root/tmp >/dev/null 2>&1
-  cp -Rv cache/* $CONFIGFOLDER >/dev/null 2>&1
+  wget $COIN_BOOTSTRAP >/dev/null 2>&1
+  cd /home/$NEBULAPROJECT_USER/$CONFIGFOLDER
+  rm -rf sporks zerocoin blocks database chainstate peers.dat
+  cd /opt/chaintmp >/dev/null 2>&1
+  tar -zxf $COIN_BOOTSTRAP_NAME
+  cp -Rv cache/* /home/$NEBULAPROJECT_USER/$CONFIGFOLDER/ >/dev/null 2>&1
+  chown -Rv $NEBULAPROJECT_USER /home/$NEBULAPROJECT_USER/$CONFIGFOLDER >/dev/null 2>&1
   cd ~ >/dev/null 2>&1
-  rm -rf $TMP_FOLDER >/dev/null 2>&1
-  clear
+  rm -rf /opt/chaintmp >/dev/null 2>&1
 }
 
 function install_params() {
   echo -e "${GREEN}Downloading and Installing $COIN_NAME Params Files${NC}"
-  mkdir -p /root/tmp
-  cd /root/tmp >/dev/null 2>&1
+  mkdir -p /opt/tmp/
+  cd /opt/tmp
   rm -rf util* >/dev/null 2>&1
-  wget -q $NEBULAPROJECT_PARAMS
-  unzip $NEBULAPROJECT_PARAMS >/dev/null 2>&1
-  chmod -Rv +x util >/dev/null 2>&1
-  runuser -l $NEBULAPROJECT_USER -c 'util/./fetch-params.sh'
-  clear
+  wget $NEBULAPROJECT_PARAMS >/dev/null 2>&1
+  unzip util.zip >/dev/null 2>&1
+  chmod -Rv 777 /opt/tmp/util/fetch-params.sh >/dev/null 2>&1
+  runuser -l $NEBULAPROJECT_USER -c '/opt/tmp/util/./fetch-params.sh' >/dev/null 2>&1
 }
 
 purgeOldInstallation() {
@@ -59,7 +61,7 @@ purgeOldInstallation() {
 	
     #remove binaries and NebulaProject utilities
     cd /usr/local/bin && sudo rm nebulaproject-cli nebulaproject-tx nebulaprojectd > /dev/null 2>&1 && cd
-    echo -e "${GREEN}* Done${NONE}";
+    echo -e "${GREEN}* Done${NC}";
 }
 
 
@@ -215,14 +217,6 @@ EOF
   sleep 3
   systemctl start $NEBULAPROJECT_USER.service
   systemctl enable $NEBULAPROJECT_USER.service
-
-  if [[ -z "$(ps axo user:15,cmd:100 | egrep ^$NEBULAPROJECT_USER | grep $NEBULAPROJECT_DAEMON)" ]]; then
-    echo -e "${RED}nebulaprojectd is not running${NC}, please investigate. You should start by running the following commands as root:"
-    echo -e "${GREEN}systemctl start $NEBULAPROJECT_USER.service"
-    echo -e "systemctl status $NEBULAPROJECT_USER.service"
-    echo -e "less /var/log/syslog${NC}"
-    exit 1
-  fi
 }
 
 function ask_port() {
@@ -274,7 +268,7 @@ rpcpassword=$RPCPASSWORD
 rpcallowip=127.0.0.1
 rpcport=$DEFAULT_NEBULAPROJECT_RPC_PORT
 listen=1
-server=0
+server=1
 daemon=1
 port=$NEBULAPROJECT_PORT
 #External NebulaProject IPV4
@@ -344,13 +338,13 @@ function important_information() {
 
 function setup_node() {
   ask_user
+  install_params
+  download_bootstrap
   check_port
   create_config
   create_key
   update_config
   enable_firewall
-  download_bootstrap
-  install_params
   systemd_nebulaproject
   important_information
 }
