@@ -1,5 +1,5 @@
 ![Coin-Logo](https://github.com/Nebula-Coin/nebula-project-coin/blob/main/share/pixmaps/nebulaproject32.png)
-# NebulaProject Masternode Setup Guide (Ubuntu 18.04)
+# NebulaProject Masternode Setup Guide (Ubuntu 18.04 and 20.04)
 This guide will assist you in setting up a NebulaProject Masternode on a Linux Server running Ubuntu 18.04. (Use at your own risk)
 
 If you require further assistance contact the support team @ [Discord](https://discord.nebulaproject.io)
