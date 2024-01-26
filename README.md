@@ -108,7 +108,7 @@ If you require further assistance contact the support team @ [Discord](https://d
 ***Step 8***
 * Paste the code below into the Bitvise terminal then press enter
 
-`bash ubuntu-18.04-5.4.0-mn-install.sh`
+`bash ubuntu-18.04-5.5.0-mn-install.sh`
 
 ![Bash](https://i.imgur.com/myvmKTE.png)
 
