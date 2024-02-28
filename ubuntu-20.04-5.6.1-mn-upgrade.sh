@@ -4,8 +4,8 @@ CONFIG_FILE="nebulaproject.conf"
 NEBULAPROJECT_DAEMON="/usr/local/bin/nebulaprojectd"
 NEBULAPROJECT_CLI="/usr/local/bin/nebulaproject-cli"
 NEBULAPROJECT_REPO="https://github.com/Nebula-Coin/nebula-project-coin.git"
-NEBULAPROJECT_PARAMS="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.5.0/util.zip"
-NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.5.0/nebulaproject-5.5.0-ubuntu18-daemon.zip"
+NEBULAPROJECT_PARAMS="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/util.zip"
+NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/nebulaproject-5.6.1-ubuntu20-daemon.zip"
 COIN_BOOTSTRAP='https://bootstrap.nebulaproject.io/boot_strap.tar.gz'
 COIN_ZIP=$(echo $NEBULAPROJECT_LATEST_RELEASE | awk -F'/' '{print $NF}')
 COIN_CHAIN=$(echo $COIN_BOOTSTRAP | awk -F'/' '{print $NF}')
@@ -60,7 +60,7 @@ fi
 
 
 function checks() {
-if [[ $(lsb_release -d) != *18.04* ]]; then
+if [[ $(lsb_release -d) != *20.04* ]]; then
   echo -e "${RED}You are not running Ubuntu 18.04. Installation is cancelled.${NC}"
   exit 1
 fi
@@ -81,8 +81,9 @@ fi
 
 function copy_nebulaproject_binaries(){
   cd /root
+  apt-get install build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 libgmp-dev libevent-dev libboost-all-dev libsodium-dev cargo libminiupnpc-dev libnatpmp-dev libzmq3-dev -y
   wget $NEBULAPROJECT_LATEST_RELEASE
-  unzip nebulaproject-5.5.0-ubuntu18-daemon.zip
+  unzip nebulaproject-5.6.1-ubuntu20-daemon.zip
   cp nebulaproject-cli nebulaprojectd nebulaproject-tx /usr/local/bin >/dev/null
   chmod 755 /usr/local/bin/nebulaproject* >/dev/null
   clear

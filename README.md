@@ -102,13 +102,13 @@ If you require further assistance contact the support team @ [Discord](https://d
 * Paste the code below into the Bitvise terminal then press enter (it will just go to a new line)
 ![RootPassEnter](https://i.imgur.com/K6xlnav.png)
 
-`wget -q https://raw.githubusercontent.com/Nebula-Coin/nebula-project-mn-installer/master/ubuntu-18.04-5.5.0-mn-install.sh`
+`wget -q https://raw.githubusercontent.com/Nebula-Coin/nebula-project-mn-installer/master/ubuntu-18.04-5.6.1-mn-install.sh`
 ***
 
 ***Step 8***
 * Paste the code below into the Bitvise terminal then press enter
 
-`bash ubuntu-18.04-5.5.0-mn-install.sh`
+`bash ubuntu-18.04-5.6.1-mn-install.sh`
 
 ![Bash](https://i.imgur.com/myvmKTE.png)
 

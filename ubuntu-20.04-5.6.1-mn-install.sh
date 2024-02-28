@@ -5,8 +5,8 @@ CONFIG_FILE="nebulaproject.conf"
 NEBULAPROJECT_DAEMON="/usr/local/bin/nebulaprojectd"
 NEBULAPROJECT_CLI="/usr/local/bin/nebulaproject-cli"
 NEBULAPROJECT_REPO="https://github.com/Nebula-Coin/nebula-project-coin.git"
-NEBULAPROJECT_PARAMS="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.5.0/util.zip"
-NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.5.0/nebulaproject-5.5.0-ubuntu20-daemon.zip"
+NEBULAPROJECT_PARAMS="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/util.zip"
+NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/nebulaproject-5.6.1-ubuntu20-daemon.zip"
 COIN_BOOTSTRAP='https://bootstrap.nebulaproject.io/boot_strap.tar.gz'
 COIN_ZIP=$(echo $NEBULAPROJECT_LATEST_RELEASE | awk -F'/' '{print $NF}')
 COIN_CHAIN=$(echo $COIN_BOOTSTRAP | awk -F'/' '{print $NF}')
@@ -101,11 +101,11 @@ DEBIAN_FRONTEND=noninteractive apt-get update > /dev/null 2>&1
 DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade >/dev/null 2>&1
 apt install -y software-properties-common >/dev/null 2>&1
 echo -e "${GREEN}Adding Pivx PPA repository"
-apt-add-repository -y ppa:pivx/pivx >/dev/null 2>&1
+apt-add-repository -y ppa:pivx/berkeley-db4 >/dev/null 2>&1
 echo -e "Installing required packages, it may take some time to finish.${NC}"
 apt-get update >/dev/null 2>&1
 apt-get upgrade >/dev/null 2>&1
-apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" git make build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 libssl-dev libgmp-dev libevent-dev libboost-all-dev libdb4.8-dev libdb4.8++-dev ufw fail2ban pwgen curl unzip >/dev/null 2>&1
+apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" git make build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 libssl-dev libgmp-dev libevent-dev libboost-all-dev libdb4.8-dev libdb4.8++-dev ufw fail2ban pwgen curl unzip libminiupnpc-dev libnatpmp-dev libzmq3-dev >/dev/null 2>&1
 NODE_IP=$(curl -s4 icanhazip.com)
 clear
 if [ "$?" -gt "0" ];
@@ -114,9 +114,9 @@ if [ "$?" -gt "0" ];
     echo "apt-get update"
     echo "apt-get -y upgrade"
     echo "apt -y install software-properties-common"
-    echo "apt-add-repository -y ppa:pivx/pivx"
+    echo "apt-add-repository -y ppa:pivx/berkeley-db4"
     echo "apt-get update"
-    echo "apt install -y git make build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 libssl-dev libgmp-dev libevent-dev libboost-all-dev libdb4.8-dev libdb4.8++-dev unzip"
+    echo "apt install -y git make build-essential libtool bsdmainutils autotools-dev autoconf pkg-config automake python3 libssl-dev libgmp-dev libevent-dev libboost-all-dev libdb4.8-dev libdb4.8++-dev unzip libminiupnpc-dev libnatpmp-dev libzmq3-dev -y"
     exit 1
 fi
 clear
@@ -166,7 +166,7 @@ clear
 function copy_nebulaproject_binaries(){
    cd /root
   wget $NEBULAPROJECT_LATEST_RELEASE
-  unzip nebulaproject-5.5.0-ubuntu20-daemon.zip
+  unzip nebulaproject-5.6.1-ubuntu20-daemon.zip
   cp nebulaproject-cli nebulaprojectd nebulaproject-tx /usr/local/bin >/dev/null
   chmod 755 /usr/local/bin/nebulaproject* >/dev/null
   clear
