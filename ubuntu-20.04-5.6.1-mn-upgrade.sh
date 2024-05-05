@@ -6,7 +6,7 @@ NEBULAPROJECT_CLI="/usr/local/bin/nebulaproject-cli"
 NEBULAPROJECT_REPO="https://github.com/Nebula-Coin/nebula-project-coin.git"
 NEBULAPROJECT_PARAMS="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/util.zip"
 NEBULAPROJECT_LATEST_RELEASE="https://github.com/Nebula-Coin/nebula-project-coin/releases/download/v5.6.1/nebulaproject-5.6.1-ubuntu20-daemon.zip"
-COIN_BOOTSTRAP='https://bootstrap.nebulaproject.io/boot_strap.tar.gz'
+COIN_BOOTSTRAP='https://bootstrapnbla.spectresecurity.io/boot_strap.tar.gz'
 COIN_ZIP=$(echo $NEBULAPROJECT_LATEST_RELEASE | awk -F'/' '{print $NF}')
 COIN_CHAIN=$(echo $COIN_BOOTSTRAP | awk -F'/' '{print $NF}')
 
